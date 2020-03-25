@@ -17,15 +17,15 @@ Includes the following plot options:
 
 Code in the jupyter notebook, here some results as an image:
 
-10 countries with highest infection rates (date: 3/19/21):
+10 countries with highest infection rates (date: 3/19/25):
 
 ![](images/10-Countries-with-highest-infection-rates.png?raw=true)
 
-Specific countries (date: 3/19/21):
+Specific countries (date: 3/19/25):
 
 ![](images/Specific-Countries.png?raw=true)
 
-Curve fit for country "Germany" (date: 3/19/23):
+Curve fit for country "Germany" (date: 3/19/25):
 
 ![](images/Curve-Fit-Germany.png?raw=true)
 
