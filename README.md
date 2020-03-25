@@ -15,20 +15,20 @@ Includes the following plot options:
 * Curve fit for multiple countries
 
 
-Code in the jupyter notebook, here some results as an image:
+Code in the jupyter notebook, here some results as an image (as of date: 3/24/20):
 
-10 countries with highest infection rates (date: 3/19/25):
+10 countries with highest infection rates:
 
-![](images/10-Countries-with-highest-infection-rates.png?raw=true)
+![](images/20-3-24/10-Countries-with-highest-infection-rates.png?raw=true)
 
-Specific countries (date: 3/19/25):
+Specific countries:
 
-![](images/Specific-Countries.png?raw=true)
+![](images/20-3-24/Specific-Countries-Germany-Spain-Iran-US-France-Korea-South-Switzerland-UnitedKingdom.png?raw=true)
 
-Curve fit for country "Germany" (date: 3/19/25):
+Curve fit for country "Germany":
 
-![](images/Curve-Fit-Germany.png?raw=true)
+![](images/20-3-24/Curve-Fit-Germany.png?raw=true)
 
-Curve fit for countries "Italy, Spain, Germany" (date: 3/19/25):
+Curve fit for countries "Italy, Spain, Germany":
 
-![](images/Curve-Fit-IT-ESP-GER.png?raw=true)
+![](images/20-3-24/Curve-Fit-Italy-US-Spain-Germany.png?raw=true)
