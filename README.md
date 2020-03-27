@@ -21,6 +21,7 @@ Jupyter Notebook for "COVID-19: Infections per country"
 * Countries with highest infection rates
 * Specific countries
 * Curve fit for a specific country
+* Multi curve fit for a specific country
 * Curve fit for multiple countries
 
 
@@ -39,6 +40,10 @@ Code in the jupyter notebook, here some results as an image (as of date (Y-M-D):
 ### Curve fit for country "Germany"
 
 ![](images/2020-03-26/Curve-Fit-Germany.png?raw=true)
+
+### Multi curve fit for country "Germany"
+
+![](images/2020-03-26/Multi-Curve-Fit-Germany.png?raw=true)
 
 ### Curve fit for countries "Italy, Spain, Germany"
 
