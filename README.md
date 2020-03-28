@@ -24,6 +24,7 @@ Jupyter Notebook for "COVID-19: Infections per country"
 * Curve fit for a specific country
 * Multi curve fit for a specific country
 * Curve fit for multiple countries
+* Option for displaying deaths per country inside the graphs
 
 
 ## Example plots
