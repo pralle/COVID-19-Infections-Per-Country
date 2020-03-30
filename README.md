@@ -20,10 +20,14 @@ Jupyter Notebook for "COVID-19: Infections per country"
 * All countries
 * Countries with highest infection rates
 * Countries with highest number of deaths
-* Specific countries
-* Curve fit for a specific country
-* Multi curve fit for a specific country
-* Curve fit for multiple countries
+* Specific countries (infections)
+* Specific countries (deaths)
+* Curve fit (infections) for a specific country
+* Curve fit (deaths) for a specific country
+* Multi curve fit (infections) for a specific country
+* Multi curve fit (deaths) for a specific country
+* Curve fit (infections) for multiple countries
+* Curve fit (deaths) for multiple countries
 * Option for displaying deaths per country inside the graphs
 
 
@@ -31,26 +35,42 @@ Jupyter Notebook for "COVID-19: Infections per country"
 
 Code in the jupyter notebook, here some results as an image (as of date (Y-M-D): 2020-03-29):
 
+### Specific countries (infections)
+
+![](images/2020-03-29/Specific-Countries-Infections-Germany-Spain-Iran-US-France-Korea-South-Switzerland-UnitedKingdom.png?raw=true)
+
+### Specific countries (deaths)
+
+![](images/2020-03-29/Specific-Countries-Deaths-Germany-Spain-Iran-US-France-Korea-South-Switzerland-UnitedKingdom.png?raw=true)
+
 ### 10 countries with highest infection rates
 
-![](images/2020-03-29/10-Countries-with-highest-infection-rates.png?raw=true)
+![](images/2020-03-29/10-Countries-With-Highest-Number-Of-Infections.png?raw=true)
 
 ### 10 countries with highest number of deaths
 
-![](images/2020-03-29/10-Countries-with-highest-number-of-deaths.png?raw=true)
+![](images/2020-03-29/10-Countries-With-Highest-Number-Of-Deaths.png?raw=true)
 
-### Specific countries
+### Curve fit (infections) for country "Germany"
 
-![](images/2020-03-29/Specific-Countries-Germany-Spain-Iran-US-France-Korea-South-Switzerland-UnitedKingdom.png?raw=true)
+![](images/2020-03-29/Curve-Fit-Infections-Germany.png?raw=true)
 
-### Curve fit for country "Germany"
+### Curve fit (deaths) for country "Germany"
 
-![](images/2020-03-29/Curve-Fit-Germany.png?raw=true)
+![](images/2020-03-29/Curve-Fit-Deaths-Germany.png?raw=true)
 
-### Multi curve fit for country "Germany"
+### Multi curve fit (infections) for country "Germany"
 
-![](images/2020-03-29/Multi-Curve-Fit-Germany.png?raw=true)
+![](images/2020-03-29/Multi-Curve-Fit-Infections-Germany.png?raw=true)
 
-### Curve fit for countries "Italy, US, Spain, Germany"
+### Multi curve fit (deaths) for country "Germany"
 
-![](images/2020-03-29/Curve-Fit-Italy-US-Spain-Germany.png?raw=true)
+![](images/2020-03-29/Multi-Curve-Fit-Deaths-Germany.png?raw=true)
+
+### Curve fit (infections) for countries "Italy, US, Spain, Germany"
+
+![](images/2020-03-29/Curve-Fit-Infections-Italy-US-Spain-Germany.png?raw=true)
+
+### Curve fit (deaths) for countries "Italy, US, Spain, Germany"
+
+![](images/2020-03-29/Curve-Fit-Deaths-Italy-US-Spain-Germany.png?raw=true)
