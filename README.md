@@ -29,28 +29,28 @@ Jupyter Notebook for "COVID-19: Infections per country"
 
 ## Example plots
 
-Code in the jupyter notebook, here some results as an image (as of date (Y-M-D): 2020-03-28):
+Code in the jupyter notebook, here some results as an image (as of date (Y-M-D): 2020-03-29):
 
 ### 10 countries with highest infection rates
 
-![](images/2020-03-28/10-Countries-with-highest-infection-rates.png?raw=true)
+![](images/2020-03-29/10-Countries-with-highest-infection-rates.png?raw=true)
 
 ### 10 countries with highest number of deaths
 
-![](images/2020-03-28/10-Countries-with-highest-number-of-deaths.png?raw=true)
+![](images/2020-03-29/10-Countries-with-highest-number-of-deaths.png?raw=true)
 
 ### Specific countries
 
-![](images/2020-03-28/Specific-Countries-Germany-Spain-Iran-US-France-Korea-South-Switzerland-UnitedKingdom.png?raw=true)
+![](images/2020-03-29/Specific-Countries-Germany-Spain-Iran-US-France-Korea-South-Switzerland-UnitedKingdom.png?raw=true)
 
 ### Curve fit for country "Germany"
 
-![](images/2020-03-28/Curve-Fit-Germany.png?raw=true)
+![](images/2020-03-29/Curve-Fit-Germany.png?raw=true)
 
 ### Multi curve fit for country "Germany"
 
-![](images/2020-03-28/Multi-Curve-Fit-Germany.png?raw=true)
+![](images/2020-03-29/Multi-Curve-Fit-Germany.png?raw=true)
 
 ### Curve fit for countries "Italy, US, Spain, Germany"
 
-![](images/2020-03-28/Curve-Fit-Italy-US-Spain-Germany.png?raw=true)
+![](images/2020-03-29/Curve-Fit-Italy-US-Spain-Germany.png?raw=true)
