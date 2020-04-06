@@ -1,0 +1,292 @@
+# COVID-19 infections per country
+# Copyright 2020 Denis Meyer
+
+# Plot: Curve fit multiple countries
+
+import logging
+import os
+import datetime
+
+import matplotlib.pyplot as plt
+from heapq import nlargest
+import scipy.optimize
+import numpy as np
+
+class PlotCurveFitMultiCountries():
+
+    PLOTTING_SETTINGS = {
+        # The plot name
+        'plot_name': 'Curve fit ({}) for countries "{}"',
+        'plot_name_prediction': 'Curve fit ({}) for countries "{}" with {} days prediction',
+        # Plot start day
+        'start_day': 40,
+        # Plot end day, use a number <= 0 to plot til last day
+        'end_day': -1,
+        # Boolean flag whether to plot deaths
+        'plot_deaths': True,
+        # If prediction for 'predict_days' days should be calculated. 'end_day' will be ignored, deaths not plotted.
+        'predict': True,
+        # Prediction days
+        'predict_days': 4,
+        # Plot every n-th tick
+        'nth_tick': 3,
+        # Country and fitting data
+        'countries': [
+            {
+                'name': 'Italy',
+                'start_day': 65,
+                'end_day': 72,
+                'color': 'tomato'
+            },
+            {
+                'name': 'US',
+                'start_day': 65,
+                'end_day': 72,
+                'color': 'seagreen'
+            },
+            {
+                'name': 'Spain',
+                'start_day': 65,
+                'end_day': 72,
+                'color': 'gold'
+            },
+            {
+                'name': 'Germany',
+                'start_day': 65,
+                'end_day': 72,
+                'color': 'lightskyblue'#,
+                #'fit_func': lambda x, a, b, c: a * np.exp(b * x)
+            }
+        ],
+        # For debugging and parameter tweaking purposes: Activate to plot only the data in the full range
+        'raw_data_only': False,
+        # Boolean flag whether to plot days as x-label instead of dates
+        'plot_days_as_label_x': False
+    }
+
+    def __init__(self, functions, settings, plot_settings, plotting_settings=PLOTTING_SETTINGS):
+        self.functions = functions
+        self.settings = settings
+        self.plot_settings = plot_settings
+        self.plotting_settings = plotting_settings
+
+    def plot_infections(self, dates, df_grouped_summed, df_deaths_grouped_summed, date_first, date_last):
+        countries = [x['name'] for x in self.plotting_settings['countries']]
+        if not self.plotting_settings['predict']:
+            plot_name = self.plotting_settings['plot_name'].format('infections', ', '.join(countries))
+        else:
+            plot_name = self.plotting_settings['plot_name_prediction'].format('infections', ', '.join(countries), self.plotting_settings['predict_days'])
+
+        if not self.plot_settings['plot']['infections']:
+            logging.info('Skipping plot "{}"'.format(plot_name))
+            return
+
+        logging.info('Plotting "{}"'.format(plot_name))
+
+        # Gather all countries
+        all_countries_list = list(df_grouped_summed['Country/Region'])
+
+        fig, ax = plt.subplots(figsize=self.settings['plot']['size'])
+
+        # Validate plot start and end days
+        ed = self.plotting_settings['end_day']
+        sd = self.plotting_settings['start_day']    
+        if not self.plotting_settings['predict']:
+            plot_day_end = ed if (ed > 0 and ed < len(dates)) else len(dates)
+        else:
+            plot_day_end =len(dates) + self.plotting_settings['predict_days']
+        plot_day_start = sd if sd > 0 and sd < plot_day_end else 0
+
+        logging.info('Plotting to days [{}, {}]'.format(plot_day_start, plot_day_end))
+
+        lowest_start_day = len(dates)
+        highest_end_day = 0
+        for country in self.plotting_settings['countries']:
+            logging.info('Preparing country "{}"'.format(country['name']))
+            country_name = country['name']
+
+            if country_name in all_countries_list:
+                # Infected
+                df_tmp = df_grouped_summed[df_grouped_summed['Country/Region']==country_name]
+                df_melted = df_tmp.melt(id_vars=df_tmp.columns.values[:1], var_name='Date', value_name='Value')
+
+                # Check best fit data for start and end day
+                start_day = country['start_day']
+                end_day = country['end_day']
+                day_end = len(dates)
+                day_start = 0
+                if not self.plotting_settings['raw_data_only']:
+                    # Validate start and end days
+                    day_end = end_day if (end_day > 0 and end_day < len(dates)) else len(dates)
+                    day_start = start_day if start_day > 0 and start_day < day_end else 0
+                    logging.info('Fitting to days [{}, {}]'.format(day_start, day_end))
+                lowest_start_day = plot_day_start if plot_day_start < lowest_start_day else lowest_start_day
+                highest_end_day = plot_day_end if plot_day_end > highest_end_day else highest_end_day
+
+                vals_x = np.linspace(0, len(df_melted.Value), num = len(df_melted.Value))[day_start:day_end]
+                vals_y = list(df_melted.Value)[day_start:day_end]
+                vals_sigma = [self.functions.sigma(y) for y in vals_y]
+
+                vals_x_to_end = [t for t in range(plot_day_start, plot_day_end)]
+                vals_y_to_end = list(df_melted.Value)[plot_day_start:plot_day_end]
+
+                if not self.plotting_settings['raw_data_only']:
+                    # Scipy curve fit
+                    try:
+                        func = country['fit_func'] if 'fit_func' in country else self.functions.fit
+                        params, params_cov = scipy.optimize.curve_fit(func, xdata=vals_x, ydata=vals_y, sigma=vals_sigma)
+                        vals_y_fit = [func(x, params[0], params[1], 0) for x in vals_x_to_end]
+                        ax.plot(vals_x_to_end, vals_y_fit, '-', color=country['color'], label='{} (Fit - days {}-{})'.format(country_name, day_start, day_end))
+
+                        # Predict missing n values for prediction
+                        if self.plotting_settings['predict']:
+                            vx_from = vals_x_to_end[-self.plotting_settings['predict_days']]
+                            vals_y_to_end = vals_y_to_end + [self.functions.fit(v, params[0], params[1]) for v in range(vx_from, vx_from + self.plotting_settings['predict_days'])]
+                    except Exception as e:
+                        logging.info('Could not find curve fit: {}'.format(e))
+                else:
+                    logging.info('Just logging data')
+
+                # Plot data
+                ax.plot(vals_x_to_end, vals_y_to_end, 'o', color=country['color'], label='{} (Infections)'.format(country_name))
+
+                # Plot deaths
+                if not self.plotting_settings['predict'] and self.plotting_settings['plot_deaths']:
+                    # Deaths
+                    df_deaths_tmp = df_deaths_grouped_summed[df_deaths_grouped_summed['Country/Region']==country_name]
+                    df_deaths_melted = df_deaths_tmp.melt(id_vars=df_deaths_tmp.columns.values[:1], var_name='Date', value_name='Value')
+
+                    vals_x_to_end = [t for t in range(lowest_start_day, highest_end_day)]
+                    vals_y_deaths_to_end = list(df_deaths_melted.Value)[lowest_start_day:highest_end_day]
+                    ax.plot(vals_x_to_end, vals_y_deaths_to_end, '--', color=country['color'], label='{} (Deaths)'.format(country_name))
+            else:
+                logging.info('Could not find given country "{}"'.format(country_name))
+
+        ax.set_title('{} - {} - {}'.format(self.settings['plot']['title'], date_last.date(), plot_name), loc='center')
+        ax.set_xlabel(self.settings['plot']['label_x'])
+        ax.set_ylabel(self.settings['plot']['label_y'])
+
+        # Plot prediction background
+        if self.plotting_settings['predict']:
+            plt.axvspan(vals_x_to_end[-4] - 0.5, vals_x_to_end[-1] + 0.5, facecolor='b', alpha=0.5, zorder=-100)
+
+        # Calculate ticks and labels (=the dates on the x-axis)
+        ticks = [t for t in range(plot_day_start, plot_day_end)][::self.plotting_settings['nth_tick']]
+        if self.plotting_settings['plot_days_as_label_x']:
+            labels = [d for d in ticks]
+        else:
+            labels = [str((date_first + datetime.timedelta(days=d)).date()) for d in ticks]
+        plt.xticks(ticks=ticks, labels=labels)
+
+        plt.legend(loc='upper left')
+        plt.show()
+
+        if self.plot_settings['save_to_file']:
+            self.functions.save_plot(os.getcwd(), fig, self.settings['plot_image_path'], date_last, self.plot_settings['filename'].format('Infections', '-'.join(countries)))
+
+        plt.close(fig)
+
+    def plot_deaths(self, dates, df_grouped_summed, df_deaths_grouped_summed, date_first, date_last):
+        countries = [x['name'] for x in self.plotting_settings['countries']]
+        if not self.plotting_settings['predict']:
+            plot_name = self.plotting_settings['plot_name'].format('deaths', ', '.join(countries))
+        else:
+            plot_name = self.plotting_settings['plot_name_prediction'].format('deaths', ', '.join(countries), self.plotting_settings['predict_days'])
+
+        if not self.plot_settings['plot']['deaths']:
+            logging.info('Skipping plot "{}"'.format(plot_name))
+            return
+
+        logging.info('Plotting "{}"'.format(plot_name))
+
+        # Gather all countries
+        all_countries_list = list(df_grouped_summed['Country/Region'])
+
+        fig, ax = plt.subplots(figsize=self.settings['plot']['size'])
+
+        # Validate plot start and end days
+        ed = self.plotting_settings['end_day']
+        sd = self.plotting_settings['start_day']
+        if not self.plotting_settings['predict']:
+            plot_day_end = ed if (ed > 0 and ed < len(dates)) else len(dates)
+        else:
+            plot_day_end =len(dates) + self.plotting_settings['predict_days']
+        plot_day_start = sd if sd > 0 and sd < plot_day_end else 0
+        logging.info('Plotting to days [{}, {}]'.format(plot_day_start, plot_day_end))
+
+        lowest_start_day = len(dates)
+        highest_end_day = 0
+        for country in self.plotting_settings['countries']:
+            logging.info('Preparing country "{}"'.format(country['name']))
+            country_name = country['name']
+
+            if country_name in all_countries_list:
+                # Infected
+                df_deaths_tmp = df_deaths_grouped_summed[df_deaths_grouped_summed['Country/Region']==country_name]
+                df_deaths_melted = df_deaths_tmp.melt(id_vars=df_deaths_tmp.columns.values[:1], var_name='Date', value_name='Value')
+
+                # Check best fit data for start and end day
+                start_day = country['start_day']
+                end_day = country['end_day']
+                day_end = len(dates)
+                day_start = 0
+                if not self.plotting_settings['raw_data_only']:
+                    # Validate start and end days
+                    day_end = end_day if (end_day > 0 and end_day < len(dates)) else len(dates)
+                    day_start = start_day if start_day > 0 and start_day < day_end else 0
+                    logging.info('Fitting to days [{}, {}]'.format(day_start, day_end))
+                lowest_start_day = plot_day_start if plot_day_start < lowest_start_day else lowest_start_day
+                highest_end_day = plot_day_end if plot_day_end > highest_end_day else highest_end_day
+
+                vals_x = np.linspace(0, len(df_deaths_melted.Value), num = len(df_deaths_melted.Value))[day_start:day_end]
+                vals_y = list(df_deaths_melted.Value)[day_start:day_end]
+                vals_sigma = [self.functions.sigma(y) for y in vals_y]
+
+                vals_x_to_end = [t for t in range(plot_day_start, plot_day_end)]
+                vals_y_to_end = list(df_deaths_melted.Value)[plot_day_start:plot_day_end]
+
+                if not self.plotting_settings['raw_data_only']:
+                    # Scipy curve fit
+                    try:
+                        func = country['fit_func'] if 'fit_func' in country else self.functions.fit
+                        params, params_cov = scipy.optimize.curve_fit(func, xdata=vals_x, ydata=vals_y, sigma=vals_sigma)
+                        vals_y_fit = [func(x, params[0], params[1], 0) for x in vals_x_to_end]
+                        ax.plot(vals_x_to_end, vals_y_fit, '-', color=country['color'], label='{} (Fit - days {}-{})'.format(country_name, day_start, day_end))
+
+                        # Predict missing n values for prediction
+                        if self.plotting_settings['predict']:
+                            vx_from = vals_x_to_end[-self.plotting_settings['predict_days']]
+                            vals_y_to_end = vals_y_to_end + [self.functions.fit(v, params[0], params[1]) for v in range(vx_from, vx_from + self.plotting_settings['predict_days'])]
+                    except Exception as e:
+                        logging.info('Could not find curve fit, exception: {}'.format(e))
+                else:
+                    logging.info('Just logging data')
+
+                # Plot data
+                ax.plot(vals_x_to_end, vals_y_to_end, 'o', color=country['color'], label='{}'.format(country_name))
+            else:
+                logging.info('Could not find given country "{}"'.format(country_name))
+
+        ax.set_title('{} - {} - {}'.format(self.settings['plot']['title'], date_last.date(), plot_name), loc='center')
+        ax.set_xlabel(self.settings['plot']['label_x'])
+        ax.set_ylabel(self.settings['plot']['label_y'])
+
+        # Plot prediction background
+        if self.plotting_settings['predict']:
+            plt.axvspan(vals_x_to_end[-4] - 0.5, vals_x_to_end[-1] + 0.5, facecolor='b', alpha=0.5, zorder=-100)
+
+        # Calculate ticks and labels (=the dates on the x-axis)
+        ticks = [t for t in range(plot_day_start, plot_day_end)][::self.plotting_settings['nth_tick']]
+        if self.plotting_settings['plot_days_as_label_x']:
+            labels = [d for d in ticks]
+        else:
+            labels = [str((date_first + datetime.timedelta(days=d)).date()) for d in ticks]
+        plt.xticks(ticks=ticks, labels=labels)
+
+        plt.legend(loc='upper left')
+        plt.show()
+
+        if self.plot_settings['save_to_file']:
+            self.functions.save_plot(os.getcwd(), fig, self.settings['plot_image_path'], date_last, self.plot_settings['filename'].format('Deaths', '-'.join(countries)))
+
+        plt.close(fig)
