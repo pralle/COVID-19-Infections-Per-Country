@@ -6,7 +6,7 @@
 # Ignores all plotting flags and plots (except "all countries")
 FORCE_PLOT = True
 # Ignores all flags "..._SAVE_PLOT_TO_FILE" and saves to file - plotting must be activated
-FORCE_SAVE_PLOT_TO_FILE = False
+FORCE_SAVE_PLOT_TO_FILE = True
 
 PLOT_SETTINGS = {
     # Plot: All countries

@@ -33,8 +33,8 @@ class PlotCurveFitSpecificCountry():
         # Plot every n-th tick
         'nth_tick': 3,
         # Fitting data for start and end day
-        'start_day_fit': 65,
-        'end_day_fit': 72,
+        'start_day_fit': 67,
+        'end_day_fit': 75,
         # For debugging and parameter tweaking purposes: Activate to plot only the data in the full range
         'raw_data_only': False,
         # Boolean flag whether to plot days as x-label instead of dates

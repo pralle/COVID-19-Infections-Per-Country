@@ -70,8 +70,8 @@ class PlotMultiCurveFitSpecificCountry():
                     #'fit_func': lambda x, a, b, c: a * np.exp(b * x)
                 },
                 {
-                    'start_day': 65,
-                    'end_day': 72,
+                    'start_day': 66,
+                    'end_day': 73,
                     'plot_start_day': 58,
                     'plot_end_day': -1,
                     'color': 'blue'

@@ -34,26 +34,26 @@ class PlotCurveFitMultiCountries():
         'countries': [
             {
                 'name': 'Italy',
-                'start_day': 65,
-                'end_day': 72,
+                'start_day': 66,
+                'end_day': 73,
                 'color': 'tomato'
             },
             {
                 'name': 'US',
-                'start_day': 65,
-                'end_day': 72,
+                'start_day': 66,
+                'end_day': 73,
                 'color': 'seagreen'
             },
             {
                 'name': 'Spain',
-                'start_day': 65,
-                'end_day': 72,
+                'start_day': 66,
+                'end_day': 73,
                 'color': 'gold'
             },
             {
                 'name': 'Germany',
-                'start_day': 65,
-                'end_day': 72,
+                'start_day': 66,
+                'end_day': 73,
                 'color': 'lightskyblue'#,
                 #'fit_func': lambda x, a, b, c: a * np.exp(b * x)
             }

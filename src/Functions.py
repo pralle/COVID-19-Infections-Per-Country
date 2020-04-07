@@ -75,7 +75,7 @@ class Functions():
             df = None
         if not file_loaded:
             logging.info('Downloading fresh data from "{}"...'.format(url))
-            df = download_csv_data(url)
+            df = self.download_csv_data(url)
             logging.info('Trying to save to file "{}"'.format(csv_file))
             df.to_csv('{}'.format(csv_file), encoding='utf-8', index=False)
             logging.info('Successfully saved to file "{}"'.format(csv_file))
