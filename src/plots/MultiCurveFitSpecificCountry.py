@@ -26,7 +26,7 @@ class PlotMultiCurveFitSpecificCountry():
         # The country to plot
         'country': 'Germany',
         # Plot every n-th tick
-        'nth_tick': 2,
+        'nth_tick': 3,
         # Fitting data
         'fits': {
             'infections': [
@@ -43,7 +43,6 @@ class PlotMultiCurveFitSpecificCountry():
                     'plot_start_day': 49,
                     'plot_end_day': 64,
                     'color': 'blue'#,
-                    #'fit_func': lambda x, a, b, c: a * np.exp(b * x)
                 },
                 {
                     'start_day': 58,
@@ -53,8 +52,8 @@ class PlotMultiCurveFitSpecificCountry():
                     'color': 'steelblue'
                 },
                 {
-                    'start_day': 67,
-                    'end_day': 73,
+                    'start_day': 69,
+                    'end_day': 76,
                     'plot_start_day': 65,
                     'plot_end_day': -1,
                     'color': 'slateblue'
@@ -67,16 +66,20 @@ class PlotMultiCurveFitSpecificCountry():
                     'plot_start_day': 40,
                     'plot_end_day': 62,
                     'color': 'lightskyblue'#,
-                    #'fit_func': lambda x, a, b, c: a * np.exp(b * x)
                 },
                 {
-                    'start_day': 66,
-                    'end_day': 73,
+                    'start_day': 69,
+                    'end_day': 76,
                     'plot_start_day': 58,
                     'plot_end_day': -1,
                     'color': 'blue'
                 }
             ]
+        },
+        # Fitting functions
+        'fit_func': {
+            'infections': lambda x, a, b, c: np.exp(a + b * x),
+            'deaths': lambda x, a, b, c: np.exp(a + b * x)
         },
         # For debugging and parameter tweaking purposes: Activate to plot only the data in the full range
         'raw_data_only': False,
@@ -134,7 +137,7 @@ class PlotMultiCurveFitSpecificCountry():
                 if not self.plotting_settings['raw_data_only']:
                     # Scipy curve fit
                     try:
-                        func = data['fit_func'] if 'fit_func' in data else self.functions.fit
+                        func = self.plotting_settings['fit_func']['infections'] if 'fit_func' in self.plotting_settings else self.functions.fit
                         params, params_cov = scipy.optimize.curve_fit(func, xdata=vals_x, ydata=vals_y, sigma=vals_sigma)
                         vals_y_fit = [func(x, params[0], params[1], 0) for x in vals_x_to_end]
                         ax.plot(vals_x_to_end, vals_y_fit, '--', color=data['color'], label='Fit - days {}-{}'.format(day_start, day_end))
@@ -225,7 +228,7 @@ class PlotMultiCurveFitSpecificCountry():
                 if not self.plotting_settings['raw_data_only']:
                     # Scipy curve fit
                     try:
-                        func = data['fit_func'] if 'fit_func' in data else self.functions.fit
+                        func = self.plotting_settings['fit_func']['deaths'] if 'fit_func' in self.plotting_settings else self.functions.fit
                         params, params_cov = scipy.optimize.curve_fit(func, xdata=vals_x, ydata=vals_y, sigma=vals_sigma)
                         vals_y_fit = [func(x, params[0], params[1], 0) for x in vals_x_to_end]
                         ax.plot(vals_x_to_end, vals_y_fit, '--', color=data['color'], label='Fit - days {}-{}'.format(day_start, day_end))

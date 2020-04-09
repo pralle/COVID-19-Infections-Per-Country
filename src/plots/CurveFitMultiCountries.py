@@ -34,30 +34,66 @@ class PlotCurveFitMultiCountries():
         'countries': [
             {
                 'name': 'Italy',
-                'start_day': 66,
-                'end_day': 73,
+                'day_fit': {
+                    'infections': {
+                        'start': 69,
+                        'end': 76,
+                    },
+                    'deaths': {
+                        'start': 68,
+                        'end': 75,
+                    }
+                },
                 'color': 'tomato'
             },
             {
                 'name': 'US',
-                'start_day': 66,
-                'end_day': 73,
+                'day_fit': {
+                    'infections': {
+                        'start': 69,
+                        'end': 76,
+                    },
+                    'deaths': {
+                        'start': 68,
+                        'end': 75,
+                    }
+                },
                 'color': 'seagreen'
             },
             {
                 'name': 'Spain',
-                'start_day': 66,
-                'end_day': 73,
+                'day_fit': {
+                    'infections': {
+                        'start': 69,
+                        'end': 76,
+                    },
+                    'deaths': {
+                        'start': 68,
+                        'end': 75,
+                    }
+                },
                 'color': 'gold'
             },
             {
                 'name': 'Germany',
-                'start_day': 66,
-                'end_day': 73,
-                'color': 'lightskyblue'#,
-                #'fit_func': lambda x, a, b, c: a * np.exp(b * x)
+                'day_fit': {
+                    'infections': {
+                        'start': 69,
+                        'end': 76,
+                    },
+                    'deaths': {
+                        'start': 68,
+                        'end': 75,
+                    }
+                },
+                'color': 'lightskyblue'
             }
         ],
+        # Fitting functions
+        'fit_func': {
+            'infections': lambda x, a, b, c: np.exp(a + b * x),
+            'deaths': lambda x, a, b, c: np.exp(a + b * x)
+        },
         # For debugging and parameter tweaking purposes: Activate to plot only the data in the full range
         'raw_data_only': False,
         # Boolean flag whether to plot days as x-label instead of dates
@@ -90,8 +126,8 @@ class PlotCurveFitMultiCountries():
 
         # Validate plot start and end days
         ed = self.plotting_settings['end_day']
-        sd = self.plotting_settings['start_day']    
-        if not self.plotting_settings['predict']:
+        sd = self.plotting_settings['start_day']
+        if self.plotting_settings['raw_data_only'] or not self.plotting_settings['predict']:
             plot_day_end = ed if (ed > 0 and ed < len(dates)) else len(dates)
         else:
             plot_day_end =len(dates) + self.plotting_settings['predict_days']
@@ -111,8 +147,8 @@ class PlotCurveFitMultiCountries():
                 df_melted = df_tmp.melt(id_vars=df_tmp.columns.values[:1], var_name='Date', value_name='Value')
 
                 # Check best fit data for start and end day
-                start_day = country['start_day']
-                end_day = country['end_day']
+                start_day = country['day_fit']['infections']['start']
+                end_day = country['day_fit']['infections']['end']
                 day_end = len(dates)
                 day_start = 0
                 if not self.plotting_settings['raw_data_only']:
@@ -133,13 +169,13 @@ class PlotCurveFitMultiCountries():
                 if not self.plotting_settings['raw_data_only']:
                     # Scipy curve fit
                     try:
-                        func = country['fit_func'] if 'fit_func' in country else self.functions.fit
+                        func = self.plotting_settings['fit_func']['infections'] if 'fit_func' in self.plotting_settings else self.functions.fit
                         params, params_cov = scipy.optimize.curve_fit(func, xdata=vals_x, ydata=vals_y, sigma=vals_sigma)
                         vals_y_fit = [func(x, params[0], params[1], 0) for x in vals_x_to_end]
                         ax.plot(vals_x_to_end, vals_y_fit, '-', color=country['color'], label='{} (Fit - days {}-{})'.format(country_name, day_start, day_end))
 
                         # Predict missing n values for prediction
-                        if self.plotting_settings['predict']:
+                        if not self.plotting_settings['raw_data_only'] and self.plotting_settings['predict']:
                             vx_from = vals_x_to_end[-self.plotting_settings['predict_days']]
                             vals_y_to_end = vals_y_to_end + [self.functions.fit(v, params[0], params[1]) for v in range(vx_from, vx_from + self.plotting_settings['predict_days'])]
                     except Exception as e:
@@ -167,7 +203,7 @@ class PlotCurveFitMultiCountries():
         ax.set_ylabel(self.settings['plot']['label_y'])
 
         # Plot prediction background
-        if self.plotting_settings['predict']:
+        if not self.plotting_settings['raw_data_only'] and self.plotting_settings['predict']:
             plt.axvspan(vals_x_to_end[-4] - 0.5, vals_x_to_end[-1] + 0.5, facecolor='b', alpha=0.5, zorder=-100)
 
         # Calculate ticks and labels (=the dates on the x-axis)
@@ -207,7 +243,7 @@ class PlotCurveFitMultiCountries():
         # Validate plot start and end days
         ed = self.plotting_settings['end_day']
         sd = self.plotting_settings['start_day']
-        if not self.plotting_settings['predict']:
+        if self.plotting_settings['raw_data_only'] or not self.plotting_settings['predict']:
             plot_day_end = ed if (ed > 0 and ed < len(dates)) else len(dates)
         else:
             plot_day_end =len(dates) + self.plotting_settings['predict_days']
@@ -226,8 +262,8 @@ class PlotCurveFitMultiCountries():
                 df_deaths_melted = df_deaths_tmp.melt(id_vars=df_deaths_tmp.columns.values[:1], var_name='Date', value_name='Value')
 
                 # Check best fit data for start and end day
-                start_day = country['start_day']
-                end_day = country['end_day']
+                start_day = country['day_fit']['deaths']['start']
+                end_day = country['day_fit']['deaths']['end']
                 day_end = len(dates)
                 day_start = 0
                 if not self.plotting_settings['raw_data_only']:
@@ -248,7 +284,7 @@ class PlotCurveFitMultiCountries():
                 if not self.plotting_settings['raw_data_only']:
                     # Scipy curve fit
                     try:
-                        func = country['fit_func'] if 'fit_func' in country else self.functions.fit
+                        func = self.plotting_settings['fit_func']['deaths'] if 'fit_func' in self.plotting_settings else self.functions.fit
                         params, params_cov = scipy.optimize.curve_fit(func, xdata=vals_x, ydata=vals_y, sigma=vals_sigma)
                         vals_y_fit = [func(x, params[0], params[1], 0) for x in vals_x_to_end]
                         ax.plot(vals_x_to_end, vals_y_fit, '-', color=country['color'], label='{} (Fit - days {}-{})'.format(country_name, day_start, day_end))
@@ -272,7 +308,7 @@ class PlotCurveFitMultiCountries():
         ax.set_ylabel(self.settings['plot']['label_y'])
 
         # Plot prediction background
-        if self.plotting_settings['predict']:
+        if not self.plotting_settings['raw_data_only'] and self.plotting_settings['predict']:
             plt.axvspan(vals_x_to_end[-4] - 0.5, vals_x_to_end[-1] + 0.5, facecolor='b', alpha=0.5, zorder=-100)
 
         # Calculate ticks and labels (=the dates on the x-axis)

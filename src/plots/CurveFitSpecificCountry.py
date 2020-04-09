@@ -33,8 +33,21 @@ class PlotCurveFitSpecificCountry():
         # Plot every n-th tick
         'nth_tick': 3,
         # Fitting data for start and end day
-        'start_day_fit': 67,
-        'end_day_fit': 75,
+        'day_fit': {
+            'infections': {
+                'start': 69,
+                'end': 76,
+            },
+            'deaths': {
+                'start': 68,
+                'end': 75,
+            }
+        },
+        # Fitting functions
+        'fit_func': {
+            'infections': lambda x, a, b: np.exp(a + b * x),
+            'deaths': lambda x, a, b: np.exp(a + b * x)
+        },
         # For debugging and parameter tweaking purposes: Activate to plot only the data in the full range
         'raw_data_only': False,
         # Boolean flag whether to plot days as x-label instead of dates
@@ -73,8 +86,8 @@ class PlotCurveFitSpecificCountry():
             day_start = 0
             if not self.plotting_settings['raw_data_only']:
                 # Validate start and end days
-                edf = self.plotting_settings['end_day_fit']
-                sdf = self.plotting_settings['start_day_fit']
+                edf = self.plotting_settings['day_fit']['infections']['end']
+                sdf = self.plotting_settings['day_fit']['infections']['start']
                 day_end = edf if (edf > 0 and edf < len(df_melted.Value)) else len(df_melted.Value)
                 day_start = sdf if sdf > 0 and sdf < day_end else 0
                 logging.info('Fitting to days [{}, {}]'.format(day_start, day_end))
@@ -82,7 +95,7 @@ class PlotCurveFitSpecificCountry():
             # Validate plot start and end days
             ed = self.plotting_settings['end_day']
             sd = self.plotting_settings['start_day']
-            if not self.plotting_settings['predict']:
+            if self.plotting_settings['raw_data_only'] or not self.plotting_settings['predict']:
                 plot_day_end = ed if (ed > 0 and ed < len(df_melted.Value)) else len(df_melted.Value)
             else:
                 plot_day_end = len(df_melted.Value) + self.plotting_settings['predict_days']
@@ -99,14 +112,15 @@ class PlotCurveFitSpecificCountry():
             if not self.plotting_settings['raw_data_only']:
                 # Scipy curve fit
                 try:
-                    params, params_cov = scipy.optimize.curve_fit(self.functions.fit, xdata=vals_x, ydata=vals_y, sigma=vals_sigma)
-                    vals_y_fit = [self.functions.fit(x, params[0], params[1]) for x in vals_x_to_end]
+                    func = self.plotting_settings['fit_func']['infections'] if 'fit_func' in self.plotting_settings else self.functions.fit
+                    params, params_cov = scipy.optimize.curve_fit(func, xdata=vals_x, ydata=vals_y, sigma=vals_sigma)
+                    vals_y_fit = [func(x, params[0], params[1]) for x in vals_x_to_end]
                     ax.plot(vals_x_to_end, vals_y_fit, '--', color ='blue', label ='Fit - days {}-{}'.format(day_start, day_end))
 
                     # Predict missing n values for prediction
                     if self.plotting_settings['predict']:
                         vx_from = vals_x_to_end[-self.plotting_settings['predict_days']]
-                        vals_y_to_end = vals_y_to_end + [self.functions.fit(v, params[0], params[1]) for v in range(vx_from, vx_from + self.plotting_settings['predict_days'])]
+                        vals_y_to_end = vals_y_to_end + [func(v, params[0], params[1]) for v in range(vx_from, vx_from + self.plotting_settings['predict_days'])]
                         print(len(vals_y_to_end))
                 except Exception as e:
                     logging.info('Could not find curve fit: "{}"'.format(e))
@@ -125,7 +139,7 @@ class PlotCurveFitSpecificCountry():
             ax.plot(vals_x_to_end, vals_y_to_end, 'o', color ='green', label ='Infections')
 
             # Plot prediction background
-            if self.plotting_settings['predict']:
+            if not self.plotting_settings['raw_data_only'] and self.plotting_settings['predict']:
                 plt.axvspan(vals_x_to_end[-4] - 0.5, vals_x_to_end[-1] + 0.5, facecolor='b', alpha=0.5, zorder=-100)
 
             ax.set_title('{} - {} - {}'.format(self.settings['plot']['title'], date_last.date(), plot_name), loc='center')
@@ -176,8 +190,8 @@ class PlotCurveFitSpecificCountry():
             day_start = 0
             if not self.plotting_settings['raw_data_only']:
                 # Validate start and end days
-                edf = self.plotting_settings['end_day_fit']
-                sdf = self.plotting_settings['start_day_fit']
+                edf = self.plotting_settings['day_fit']['deaths']['end']
+                sdf = self.plotting_settings['day_fit']['deaths']['start']
                 day_end = edf if (edf > 0 and edf < len(df_deaths_melted.Value)) else len(df_deaths_melted.Value)
                 day_start = sdf if sdf > 0 and sdf < day_end else 0
                 logging.info('Fitting to days [{}, {}]'.format(day_start, day_end))
@@ -185,7 +199,7 @@ class PlotCurveFitSpecificCountry():
             # Validate plot start and end days
             ed = self.plotting_settings['end_day']
             sd = self.plotting_settings['start_day']
-            if not self.plotting_settings['predict']:
+            if self.plotting_settings['raw_data_only'] or not self.plotting_settings['predict']:
                 plot_day_end = ed if (ed > 0 and ed < len(df_deaths_melted.Value)) else len(df_deaths_melted.Value)
             else:
                 plot_day_end = len(df_deaths_melted.Value) + self.plotting_settings['predict_days']
@@ -202,14 +216,15 @@ class PlotCurveFitSpecificCountry():
             if not self.plotting_settings['raw_data_only']:
                 # Scipy curve fit
                 try:
-                    params, params_cov = scipy.optimize.curve_fit(self.functions.fit, xdata=vals_x, ydata=vals_y, sigma=vals_sigma)
-                    vals_y_fit = [self.functions.fit(x, params[0], params[1]) for x in vals_x_to_end]
+                    func = self.plotting_settings['fit_func']['deaths'] if 'fit_func' in self.plotting_settings else self.functions.fit
+                    params, params_cov = scipy.optimize.curve_fit(func, xdata=vals_x, ydata=vals_y, sigma=vals_sigma)
+                    vals_y_fit = [func(x, params[0], params[1]) for x in vals_x_to_end]
                     ax.plot(vals_x_to_end, vals_y_fit, '--', color ='blue', label ='Fit - days {}-{}'.format(day_start, day_end))
 
                     # Predict missing n values for prediction
                     if self.plotting_settings['predict']:
                         vx_from = vals_x_to_end[-self.plotting_settings['predict_days']]
-                        vals_y_to_end = vals_y_to_end + [self.functions.fit(v, params[0], params[1]) for v in range(vx_from, vx_from + self.plotting_settings['predict_days'])]
+                        vals_y_to_end = vals_y_to_end + [func(v, params[0], params[1]) for v in range(vx_from, vx_from + self.plotting_settings['predict_days'])]
                 except Exception as e:
                     logging.info('Could not find curve fit: "{}"'.format(e))
             else:
@@ -219,7 +234,7 @@ class PlotCurveFitSpecificCountry():
             ax.plot(vals_x_to_end, vals_y_to_end, 'o', color ='green', label ='Deaths')
 
             # Plot prediction background
-            if self.plotting_settings['predict']:
+            if not self.plotting_settings['raw_data_only'] and self.plotting_settings['predict']:
                 plt.axvspan(vals_x_to_end[-4] - 0.5, vals_x_to_end[-1] + 0.5, facecolor='b', alpha=0.5, zorder=-100)
 
             ax.set_title('{} - {} - {}'.format(self.settings['plot']['title'], date_last.date(), plot_name), loc='center')
