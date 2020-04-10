@@ -24,6 +24,10 @@ SETTINGS = {
     'csv_subdir_name': 'data',
     'csv_infections_subdir_name': 'infections',
     'csv_deaths_subdir_name': 'deaths',
+    # README
+    'generate_readme': True,
+    'readme_template': 'README.md.tmpl',
+    'readme': 'README.md',
     # Cache file name
     'csv_infections_filename': 'time_series_19-covid-Confirmed-{}.csv',
     'csv_deaths_filename': 'time_series_19-covid-Deaths-{}.csv',

@@ -140,3 +140,49 @@ class Functions():
         :return: Colormap function
         '''
         return plt.cm.get_cmap(name, n)
+
+    def _replace(self, line, replacement_dict):
+        '''Replaces all entries in dict in the given line
+
+        :param line: The line
+        :param replacement_dict: The replacement dicttionary
+        :return: replaced line
+        '''
+        new_line = line
+        for k, v in replacement_dict.items():
+            new_line = new_line.replace(k, v)
+
+        return new_line
+
+    def generate_readme(self, path, name_in, name_out, date):
+        '''Generates the README
+
+        :param path: The file path
+        :param name_in: The in file name
+        :param name_out: The out file name
+        :param date: The date
+        'return: True if successfully written README, False else
+        '''
+        replacement_dict = {
+            '{{DATE}}': date
+        }
+
+        try:
+            file_in = os.path.join(path, name_in)
+            logging.debug('Readme README template from "{}"'.format(file_in))
+            with open(file_in, 'r') as file:
+                lines = [self._replace(l, replacement_dict) for l in file.readlines()]
+        except Exception as e:
+            logging.warning('Failed to read README template from "{}": "{}"'.format(file_in, e))
+            return False
+
+        try:
+            file_out = os.path.join(path, name_out)
+            logging.info('Writing README to "{}"'.format(file_out))
+            with open(file_out, 'w') as file:
+                for l in lines:
+                    file.write(l)
+            return True
+        except Exception as e:
+            logging.warning('Failed to read README template from "{}": "{}"'.format(file_out, e))
+            return False
