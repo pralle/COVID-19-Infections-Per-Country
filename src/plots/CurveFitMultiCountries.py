@@ -36,12 +36,12 @@ class PlotCurveFitMultiCountries():
                 'name': 'Italy',
                 'day_fit': {
                     'infections': {
-                        'start': 69,
-                        'end': 76,
+                        'start': 70,
+                        'end': 77,
                     },
                     'deaths': {
-                        'start': 68,
-                        'end': 75,
+                        'start': 69,
+                        'end': 76,
                     }
                 },
                 'color': 'tomato'
@@ -50,12 +50,12 @@ class PlotCurveFitMultiCountries():
                 'name': 'US',
                 'day_fit': {
                     'infections': {
-                        'start': 69,
-                        'end': 76,
+                        'start': 70,
+                        'end': 77,
                     },
                     'deaths': {
-                        'start': 68,
-                        'end': 75,
+                        'start': 69,
+                        'end': 76,
                     }
                 },
                 'color': 'seagreen'
@@ -64,12 +64,12 @@ class PlotCurveFitMultiCountries():
                 'name': 'Spain',
                 'day_fit': {
                     'infections': {
-                        'start': 69,
-                        'end': 76,
+                        'start': 70,
+                        'end': 77,
                     },
                     'deaths': {
-                        'start': 68,
-                        'end': 75,
+                        'start': 69,
+                        'end': 76,
                     }
                 },
                 'color': 'gold'
@@ -78,12 +78,12 @@ class PlotCurveFitMultiCountries():
                 'name': 'Germany',
                 'day_fit': {
                     'infections': {
-                        'start': 69,
-                        'end': 76,
+                        'start': 70,
+                        'end': 77,
                     },
                     'deaths': {
-                        'start': 68,
-                        'end': 75,
+                        'start': 69,
+                        'end': 76,
                     }
                 },
                 'color': 'lightskyblue'
