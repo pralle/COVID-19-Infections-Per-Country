@@ -19,7 +19,7 @@ class PlotCurveFitSpecificCountry():
         'plot_name': 'Curve fit ({}) for country "{}"',
         'plot_name_prediction': 'Curve fit ({}) for country "{}" with {} day(s) prediction',
         # Plot start day
-        'start_day': 40,
+        'start_day': 54,
         # Plot end day, use a number <= 0 to plot til last day
         'end_day': -1,
         # If prediction for 'predict_days' days should be calculated. 'end_day' will be ignored, deaths not plotted.
@@ -35,12 +35,12 @@ class PlotCurveFitSpecificCountry():
         # Fitting data for start and end day
         'day_fit': {
             'infections': {
-                'start': 70,
-                'end': 77,
+                'start': 72,
+                'end': 79,
             },
             'deaths': {
-                'start': 69,
-                'end': 76,
+                'start': 71,
+                'end': 78,
             }
         },
         # Fitting functions
