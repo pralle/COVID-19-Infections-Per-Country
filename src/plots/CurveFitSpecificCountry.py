@@ -68,7 +68,7 @@ class PlotCurveFitSpecificCountry():
 
         if not self.plot_settings['plot']['infections']:
             logging.info('Skipping plot "{}"'.format(plot_name))
-            return
+            return None, None
 
         logging.info('Plotting "{}"'.format(plot_name))
 
@@ -158,11 +158,13 @@ class PlotCurveFitSpecificCountry():
             plt.show()
 
             if self.plot_settings['save_to_file']:
-                self.functions.save_plot(os.getcwd(), fig, self.settings['plot_image_path'], date_last, self.plot_settings['filename'].format('Infections', self.plotting_settings['country']))
+                file_path = self.functions.save_plot(os.getcwd(), fig, self.settings['plot_image_path'], date_last, self.plot_settings['filename'].format('Infections', self.plotting_settings['country']))
 
             plt.close(fig)
         else:
             logging.info('Could not find given country "{}"'.format(self.plotting_settings['country']))
+
+        return file_path, plot_name
 
     def plot_deaths(self, dates, df_grouped_summed, df_deaths_grouped_summed, date_first, date_last):
         if not self.plotting_settings['predict']:
@@ -172,7 +174,7 @@ class PlotCurveFitSpecificCountry():
 
         if not self.plot_settings['plot']['deaths']:
             logging.info('Skipping plot "{}"'.format(plot_name))
-            return
+            return None, None
 
         logging.info('Plotting "{}"'.format(plot_name))
 
@@ -253,8 +255,10 @@ class PlotCurveFitSpecificCountry():
             plt.show()
 
             if self.plot_settings['save_to_file']:
-                self.functions.save_plot(os.getcwd(), fig, self.settings['plot_image_path'], date_last, self.plot_settings['filename'].format('Deaths', self.plotting_settings['country']))
+                file_path = self.functions.save_plot(os.getcwd(), fig, self.settings['plot_image_path'], date_last, self.plot_settings['filename'].format('Deaths', self.plotting_settings['country']))
 
             plt.close(fig)
         else:
             logging.info('Could not find given country "{}"'.format(self.plotting_settings['country']))
+
+        return file_path, plot_name

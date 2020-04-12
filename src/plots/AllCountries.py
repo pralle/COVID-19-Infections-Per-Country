@@ -35,7 +35,7 @@ class PlotAllCountries():
 
         if not self.plot_settings['plot']:
             logging.info('Skipping plot "{}"'.format(plot_name))
-            return
+            return None, None
 
         logging.info('Plotting "{}"'.format(plot_name))
 
@@ -75,6 +75,8 @@ class PlotAllCountries():
         plt.show()
 
         if self.plot_settings['save_to_file']:
-            self.functions.save_plot(os.getcwd(), fig, self.settings['plot_image_path'], date_last, self.plot_settings['filename'])
+            file_path = self.functions.save_plot(os.getcwd(), fig, self.settings['plot_image_path'], date_last, self.plot_settings['filename'])
 
         plt.close(fig)
+
+        return file_path, plot_name

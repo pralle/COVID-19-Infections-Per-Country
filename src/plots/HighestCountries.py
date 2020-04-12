@@ -40,7 +40,7 @@ class PlotHighestCountries():
 
         if not self.plot_settings['plot']['infections']:
             logging.info('Skipping plot "{}"'.format(plot_name))
-            return
+            return None, None
 
         logging.info('Plotting "{}"'.format(plot_name))
 
@@ -98,16 +98,18 @@ class PlotHighestCountries():
         plt.show()
 
         if self.plot_settings['save_to_file']:
-            self.functions.save_plot(os.getcwd(), fig, self.settings['plot_image_path'], date_last, self.plot_settings['filename'].format(self.plotting_settings['nr_countries'], 'Infections'))
+            file_path = self.functions.save_plot(os.getcwd(), fig, self.settings['plot_image_path'], date_last, self.plot_settings['filename'].format(self.plotting_settings['nr_countries'], 'Infections'))
 
         plt.close(fig)
+
+        return file_path, plot_name
 
     def plot_deaths(self, dates, df_grouped_summed, df_deaths_grouped_summed, date_first, date_last):
         plot_name = self.plotting_settings['plot_name'].format(self.plotting_settings['nr_countries'], 'deaths')
 
         if not self.plot_settings['plot']['deaths']:
             logging.info('Skipping plot "{}"'.format(plot_name))
-            return
+            return None, None
 
         logging.info('Plotting "{}"'.format(plot_name))
 
@@ -156,6 +158,8 @@ class PlotHighestCountries():
         plt.show()
 
         if self.plot_settings['save_to_file']:
-            self.functions.save_plot(os.getcwd(), fig, self.settings['plot_image_path'], date_last, self.plot_settings['filename'].format(self.plotting_settings['nr_countries'], 'Deaths'))
+            file_path = self.functions.save_plot(os.getcwd(), fig, self.settings['plot_image_path'], date_last, self.plot_settings['filename'].format(self.plotting_settings['nr_countries'], 'Deaths'))
 
         plt.close(fig)
+
+        return file_path, plot_name

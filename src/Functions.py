@@ -98,19 +98,21 @@ class Functions():
         :param path: The image path
         :param date: The date
         :param name: The name of the image
-        :return: True if successfully saved, False else
+        :return: File path if successful, None else
         '''
         try:
-            path_data = os.path.join(curr_dir, path if path else 'images', str(date.date()) if date else 'unknown')
+            d_str = str(date.date()) if date else 'unknown'
+            path_data = os.path.join(curr_dir, path if path else 'images', d_str)
             if not os.path.exists(path_data):
                 os.makedirs(path_data)
-            full_path = os.path.join(path_data, self._get_clean_image_name(name))
+            clean_img_name = self._get_clean_image_name(name)
+            full_path = os.path.join(path_data, clean_img_name)
             logging.info('Saving plot to "{}"'.format(full_path))
             fig.savefig(full_path)
-            return True
+            return os.path.join(path, d_str, clean_img_name)
         except Exception as e:
             logging.info('Could not save plot to file "{}" in path "{}": {}'.format(name, path, e))
-            return False
+            return None
 
     def fit(self, x, a, b, c=1.0):
         '''Curve fitting fitting function
@@ -154,17 +156,23 @@ class Functions():
 
         return new_line
 
-    def generate_readme(self, path, name_in, name_out, date):
+    def generate_readme(self, path, name_in, name_out, date, plot_out_names):
         '''Generates the README
 
         :param path: The file path
         :param name_in: The in file name
         :param name_out: The out file name
         :param date: The date
+        :param plot_out_names: Plot name dict
         'return: True if successfully written README, False else
         '''
+        examples = []
+        for k, v in plot_out_names.items():
+            examples.append('### {}\n\n![{}]({}?raw=true)\n'.format(v, v, k))
+
         replacement_dict = {
-            '{{DATE}}': date
+            '{{DATE}}': date,
+            '{{EXAMPLES}}': '\n'.join(examples)
         }
 
         try:
