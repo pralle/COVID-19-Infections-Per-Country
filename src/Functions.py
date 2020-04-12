@@ -168,7 +168,7 @@ class Functions():
         '''
         examples = []
         for k, v in plot_out_names.items():
-            examples.append('### {}\n\n![{}]({}?raw=true)\n'.format(v, v, k))
+            examples.append('### {}\n\n![{}]({}?raw=true)\n'.format(v, v, k.replace('\\', '/')))
 
         replacement_dict = {
             '{{DATE}}': date,
