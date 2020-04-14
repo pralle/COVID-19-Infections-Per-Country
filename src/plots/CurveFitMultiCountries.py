@@ -54,8 +54,8 @@ class PlotCurveFitMultiCountries():
                         'end': 79,
                     },
                     'deaths': {
-                        'start': 71,
-                        'end': 78,
+                        'start': 73,
+                        'end': 80,
                     }
                 },
                 'color': 'seagreen'
@@ -78,8 +78,8 @@ class PlotCurveFitMultiCountries():
                 'name': 'Germany',
                 'day_fit': {
                     'infections': {
-                        'start': 72,
-                        'end': 79,
+                        'start': 73,
+                        'end': 80,
                     },
                     'deaths': {
                         'start': 71,

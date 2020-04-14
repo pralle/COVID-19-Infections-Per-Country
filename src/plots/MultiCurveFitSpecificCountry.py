@@ -52,8 +52,8 @@ class PlotMultiCurveFitSpecificCountry():
                     'color': 'steelblue'
                 },
                 {
-                    'start_day': 72,
-                    'end_day': 79,
+                    'start_day': 73,
+                    'end_day': 80,
                     'plot_start_day': 65,
                     'plot_end_day': -1,
                     'color': 'slateblue'
