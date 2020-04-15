@@ -52,11 +52,18 @@ class PlotMultiCurveFitSpecificCountry():
                     'color': 'steelblue'
                 },
                 {
-                    'start_day': 73,
-                    'end_day': 80,
+                    'start_day': 67,
+                    'end_day': 74,
                     'plot_start_day': 65,
-                    'plot_end_day': -1,
+                    'plot_end_day': 76,
                     'color': 'slateblue'
+                },
+                {
+                    'start_day': 77,
+                    'end_day': 82,
+                    'plot_start_day': 72,
+                    'plot_end_day': -1,
+                    'color': 'indigo'
                 }
             ],
             'deaths': [
@@ -75,9 +82,16 @@ class PlotMultiCurveFitSpecificCountry():
                     'color': 'lightskyblue'#,
                 },
                 {
-                    'start_day': 71,
-                    'end_day': 78,
-                    'plot_start_day': 66,
+                    'start_day': 66,
+                    'end_day': 73,
+                    'plot_start_day': 64,
+                    'plot_end_day': 75,
+                    'color': 'blue'
+                },
+                {
+                    'start_day': 76,
+                    'end_day': 81,
+                    'plot_start_day': 74,
                     'plot_end_day': -1,
                     'color': 'blue'
                 }
@@ -106,6 +120,8 @@ class PlotMultiCurveFitSpecificCountry():
         if not self.plot_settings['plot']['infections']:
             logging.info('Skipping plot "{}"'.format(plot_name))
             return None, None
+
+        file_path = ''
 
         logging.info('Plotting "{}"'.format(plot_name))
 
@@ -199,6 +215,8 @@ class PlotMultiCurveFitSpecificCountry():
         if not self.plot_settings['plot']['deaths']:
             logging.info('Skipping plot "{}"'.format(plot_name))
             return None, None
+
+        file_path = ''
 
         logging.info('Plotting "{}"'.format(plot_name))
 

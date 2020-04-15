@@ -74,6 +74,7 @@ class PlotAllCountries():
 
         plt.show()
 
+        file_path = ''
         if self.plot_settings['save_to_file']:
             file_path = self.functions.save_plot(os.getcwd(), fig, self.settings['plot_image_path'], date_last, self.plot_settings['filename'])
 

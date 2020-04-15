@@ -19,7 +19,7 @@ class PlotCurveFitSpecificCountry():
         'plot_name': 'Curve fit ({}) for country "{}"',
         'plot_name_prediction': 'Curve fit ({}) for country "{}" with {} day(s) prediction',
         # Plot start day
-        'start_day': 54,
+        'start_day': 65,
         # Plot end day, use a number <= 0 to plot til last day
         'end_day': -1,
         # If prediction for 'predict_days' days should be calculated. 'end_day' will be ignored, deaths not plotted.
@@ -35,12 +35,12 @@ class PlotCurveFitSpecificCountry():
         # Fitting data for start and end day
         'day_fit': {
             'infections': {
-                'start': 73,
-                'end': 80,
+                'start': 77,
+                'end': 82,
             },
             'deaths': {
-                'start': 71,
-                'end': 78,
+                'start': 76,
+                'end': 81,
             }
         },
         # Fitting functions
@@ -69,6 +69,8 @@ class PlotCurveFitSpecificCountry():
         if not self.plot_settings['plot']['infections']:
             logging.info('Skipping plot "{}"'.format(plot_name))
             return None, None
+
+        file_path = ''
 
         logging.info('Plotting "{}"'.format(plot_name))
 
@@ -175,6 +177,8 @@ class PlotCurveFitSpecificCountry():
         if not self.plot_settings['plot']['deaths']:
             logging.info('Skipping plot "{}"'.format(plot_name))
             return None, None
+
+        file_path = ''
 
         logging.info('Plotting "{}"'.format(plot_name))
 

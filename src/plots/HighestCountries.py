@@ -97,6 +97,7 @@ class PlotHighestCountries():
         plt.legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
         plt.show()
 
+        file_path = ''
         if self.plot_settings['save_to_file']:
             file_path = self.functions.save_plot(os.getcwd(), fig, self.settings['plot_image_path'], date_last, self.plot_settings['filename'].format(self.plotting_settings['nr_countries'], 'Infections'))
 
@@ -157,6 +158,7 @@ class PlotHighestCountries():
         plt.legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
         plt.show()
 
+        file_path = ''
         if self.plot_settings['save_to_file']:
             file_path = self.functions.save_plot(os.getcwd(), fig, self.settings['plot_image_path'], date_last, self.plot_settings['filename'].format(self.plotting_settings['nr_countries'], 'Deaths'))
 
