@@ -37,11 +37,11 @@ class PlotCurveFitMultiCountries():
                 'day_fit': {
                     'infections': {
                         'start': 77,
-                        'end': 82,
+                        'end': 84,
                     },
                     'deaths': {
-                        'start': 74,
-                        'end': 79,
+                        'start': 76,
+                        'end': 83,
                     }
                 },
                 'color': 'tomato'
@@ -51,11 +51,11 @@ class PlotCurveFitMultiCountries():
                 'day_fit': {
                     'infections': {
                         'start': 77,
-                        'end': 82,
+                        'end': 84,
                     },
                     'deaths': {
                         'start': 76,
-                        'end': 81,
+                        'end': 83,
                     }
                 },
                 'color': 'seagreen'
@@ -65,11 +65,11 @@ class PlotCurveFitMultiCountries():
                 'day_fit': {
                     'infections': {
                         'start': 77,
-                        'end': 82,
+                        'end': 84,
                     },
                     'deaths': {
                         'start': 76,
-                        'end': 81,
+                        'end': 83,
                     }
                 },
                 'color': 'gold'
@@ -79,11 +79,11 @@ class PlotCurveFitMultiCountries():
                 'day_fit': {
                     'infections': {
                         'start': 77,
-                        'end': 82,
+                        'end': 84,
                     },
                     'deaths': {
                         'start': 76,
-                        'end': 81,
+                        'end': 83,
                     }
                 },
                 'color': 'lightskyblue'

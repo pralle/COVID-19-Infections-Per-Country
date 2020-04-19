@@ -36,11 +36,11 @@ class PlotCurveFitSpecificCountry():
         'day_fit': {
             'infections': {
                 'start': 77,
-                'end': 82,
+                'end': 84,
             },
             'deaths': {
                 'start': 76,
-                'end': 81,
+                'end': 83,
             }
         },
         # Fitting functions

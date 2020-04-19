@@ -60,7 +60,7 @@ class PlotMultiCurveFitSpecificCountry():
                 },
                 {
                     'start_day': 77,
-                    'end_day': 82,
+                    'end_day': 84,
                     'plot_start_day': 72,
                     'plot_end_day': -1,
                     'color': 'indigo'
@@ -89,8 +89,8 @@ class PlotMultiCurveFitSpecificCountry():
                     'color': 'blue'
                 },
                 {
-                    'start_day': 76,
-                    'end_day': 81,
+                    'start_day': 75,
+                    'end_day': 84,
                     'plot_start_day': 74,
                     'plot_end_day': -1,
                     'color': 'blue'
