@@ -28,45 +28,45 @@ Jupyter Notebook for "COVID-19: Infections per country"
 
 ## Example plots
 
-Code in the jupyter notebook, here some results as an image (as of date (Y-M-D): 2020-04-19):
+Code in the jupyter notebook, here some results as an image (as of date (Y-M-D): 2020-04-20):
 
 ### Specific countries (infections): "Germany, Spain, Iran, US, France, Korea, South, Switzerland, United Kingdom"
 
-![Specific countries (infections): "Germany, Spain, Iran, US, France, Korea, South, Switzerland, United Kingdom"](images/2020-04-19/Specific-Countries-Infections-Germany-Spain-Iran-US-France-Korea-South-Switzerland-UnitedKingdom.png?raw=true)
+![Specific countries (infections): "Germany, Spain, Iran, US, France, Korea, South, Switzerland, United Kingdom"](images/2020-04-20/Specific-Countries-Infections-Germany-Spain-Iran-US-France-Korea-South-Switzerland-UnitedKingdom.png?raw=true)
 
 ### Specific countries (deaths): "Germany, Spain, Iran, US, France, Korea, South, Switzerland, United Kingdom"
 
-![Specific countries (deaths): "Germany, Spain, Iran, US, France, Korea, South, Switzerland, United Kingdom"](images/2020-04-19/Specific-Countries-Deaths-Germany-Spain-Iran-US-France-Korea-South-Switzerland-UnitedKingdom.png?raw=true)
+![Specific countries (deaths): "Germany, Spain, Iran, US, France, Korea, South, Switzerland, United Kingdom"](images/2020-04-20/Specific-Countries-Deaths-Germany-Spain-Iran-US-France-Korea-South-Switzerland-UnitedKingdom.png?raw=true)
 
 ### 10 countries with highest number of infections
 
-![10 countries with highest number of infections](images/2020-04-19/10-Countries-With-Highest-Number-Of-Infections.png?raw=true)
+![10 countries with highest number of infections](images/2020-04-20/10-Countries-With-Highest-Number-Of-Infections.png?raw=true)
 
 ### 10 countries with highest number of deaths
 
-![10 countries with highest number of deaths](images/2020-04-19/10-Countries-With-Highest-Number-Of-Deaths.png?raw=true)
+![10 countries with highest number of deaths](images/2020-04-20/10-Countries-With-Highest-Number-Of-Deaths.png?raw=true)
 
 ### Curve fit (infections) for country "Germany" with 4 day(s) prediction
 
-![Curve fit (infections) for country "Germany" with 4 day(s) prediction](images/2020-04-19/Curve-Fit-Infections-Germany.png?raw=true)
+![Curve fit (infections) for country "Germany" with 4 day(s) prediction](images/2020-04-20/Curve-Fit-Infections-Germany.png?raw=true)
 
 ### Curve fit (deaths) for country "Germany" with 4 day(s) prediction
 
-![Curve fit (deaths) for country "Germany" with 4 day(s) prediction](images/2020-04-19/Curve-Fit-Deaths-Germany.png?raw=true)
+![Curve fit (deaths) for country "Germany" with 4 day(s) prediction](images/2020-04-20/Curve-Fit-Deaths-Germany.png?raw=true)
 
 ### Multi curve fit (infections) for country "Germany"
 
-![Multi curve fit (infections) for country "Germany"](images/2020-04-19/Multi-Curve-Fit-Infections-Germany.png?raw=true)
+![Multi curve fit (infections) for country "Germany"](images/2020-04-20/Multi-Curve-Fit-Infections-Germany.png?raw=true)
 
 ### Multi curve fit (deaths) for country "Germany"
 
-![Multi curve fit (deaths) for country "Germany"](images/2020-04-19/Multi-Curve-Fit-Deaths-Germany.png?raw=true)
+![Multi curve fit (deaths) for country "Germany"](images/2020-04-20/Multi-Curve-Fit-Deaths-Germany.png?raw=true)
 
 ### Curve fit (infections) for countries "Italy, US, Spain, Germany" with 4 days prediction
 
-![Curve fit (infections) for countries "Italy, US, Spain, Germany" with 4 days prediction](images/2020-04-19/Curve-Fit-Infections-Italy-US-Spain-Germany.png?raw=true)
+![Curve fit (infections) for countries "Italy, US, Spain, Germany" with 4 days prediction](images/2020-04-20/Curve-Fit-Infections-Italy-US-Spain-Germany.png?raw=true)
 
 ### Curve fit (deaths) for countries "Italy, US, Spain, Germany" with 4 days prediction
 
-![Curve fit (deaths) for countries "Italy, US, Spain, Germany" with 4 days prediction](images/2020-04-19/Curve-Fit-Deaths-Italy-US-Spain-Germany.png?raw=true)
+![Curve fit (deaths) for countries "Italy, US, Spain, Germany" with 4 days prediction](images/2020-04-20/Curve-Fit-Deaths-Italy-US-Spain-Germany.png?raw=true)
 
