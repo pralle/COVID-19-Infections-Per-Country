@@ -35,12 +35,12 @@ class PlotCurveFitSpecificCountry():
         # Fitting data for start and end day
         'day_fit': {
             'infections': {
-                'start': 77,
-                'end': 84,
+                'start': 78,
+                'end': 85,
             },
             'deaths': {
-                'start': 76,
-                'end': 83,
+                'start': 78,
+                'end': 85,
             }
         },
         # Fitting functions
