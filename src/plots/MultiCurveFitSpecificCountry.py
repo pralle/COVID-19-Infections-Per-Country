@@ -61,9 +61,16 @@ class PlotMultiCurveFitSpecificCountry():
                 {
                     'start_day': 78,
                     'end_day': 85,
-                    'plot_start_day': 72,
-                    'plot_end_day': -1,
+                    'plot_start_day': 76,
+                    'plot_end_day': 81,
                     'color': 'indigo'
+                },
+                {
+                    'start_day': 83,
+                    'end_day': 89,
+                    'plot_start_day': 80,
+                    'plot_end_day': -1,
+                    'color': 'darkviolet'
                 }
             ],
             'deaths': [
@@ -91,9 +98,16 @@ class PlotMultiCurveFitSpecificCountry():
                 {
                     'start_day': 78,
                     'end_day': 85,
-                    'plot_start_day': 74,
+                    'plot_start_day': 76,
+                    'plot_end_day': 85,
+                    'color': 'indigo'
+                },
+                {
+                    'start_day': 83,
+                    'end_day': 89,
+                    'plot_start_day': 80,
                     'plot_end_day': -1,
-                    'color': 'blue'
+                    'color': 'darkviolet'
                 }
             ]
         },
