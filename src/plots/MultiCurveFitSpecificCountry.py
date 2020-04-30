@@ -26,7 +26,7 @@ class PlotMultiCurveFitSpecificCountry():
         # The country to plot
         'country': 'Germany',
         # Plot every n-th tick
-        'nth_tick': 3,
+        'nth_tick': 4,
         # Fitting data
         'fits': {
             'infections': [
@@ -69,45 +69,59 @@ class PlotMultiCurveFitSpecificCountry():
                     'start_day': 83,
                     'end_day': 89,
                     'plot_start_day': 80,
-                    'plot_end_day': -1,
+                    'plot_end_day': 91,
                     'color': 'darkviolet'
+                },
+                {
+                    'start_day': 90,
+                    'end_day': 96,
+                    'plot_start_day': 88,
+                    'plot_end_day': -1,
+                    'color': 'darkorchid'
                 }
             ],
             'deaths': [
                 {
                     'start_day': 51,
                     'end_day': 58,
-                    'plot_start_day': 40,
-                    'plot_end_day': 60,
-                    'color': 'lightskyblue'#,
+                    'plot_start_day': 49,
+                    'plot_end_day': 64,
+                    'color': 'blue'#,
                 },
                 {
                     'start_day': 58,
                     'end_day': 65,
                     'plot_start_day': 56,
                     'plot_end_day': 67,
-                    'color': 'lightskyblue'#,
+                    'color': 'steelblue'
                 },
                 {
-                    'start_day': 66,
-                    'end_day': 73,
-                    'plot_start_day': 64,
-                    'plot_end_day': 75,
-                    'color': 'blue'
+                    'start_day': 67,
+                    'end_day': 74,
+                    'plot_start_day': 65,
+                    'plot_end_day': 76,
+                    'color': 'slateblue'
                 },
                 {
                     'start_day': 78,
                     'end_day': 85,
                     'plot_start_day': 76,
-                    'plot_end_day': 85,
+                    'plot_end_day': 81,
                     'color': 'indigo'
                 },
                 {
                     'start_day': 83,
                     'end_day': 89,
                     'plot_start_day': 80,
-                    'plot_end_day': -1,
+                    'plot_end_day': 91,
                     'color': 'darkviolet'
+                },
+                {
+                    'start_day': 90,
+                    'end_day': 96,
+                    'plot_start_day': 88,
+                    'plot_end_day': -1,
+                    'color': 'darkorchid'
                 }
             ]
         },
