@@ -68,8 +68,8 @@ class PlotCurveFitMultiCountries():
                         'end': 96,
                     },
                     'deaths': {
-                        'start': 90,
-                        'end': 96,
+                        'start': 91,
+                        'end': 97,
                     }
                 },
                 'color': 'gold'
