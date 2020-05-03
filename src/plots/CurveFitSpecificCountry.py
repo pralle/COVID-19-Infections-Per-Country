@@ -32,15 +32,20 @@ class PlotCurveFitSpecificCountry():
         'country': 'Germany',
         # Plot every n-th tick
         'nth_tick': 2,
+        # Plot y-ticks of given steps
+        'y_tick_steps': {
+            'infections': 20000,
+            'deaths': 1000
+        },
         # Fitting data for start and end day
         'day_fit': {
             'infections': {
-                'start': 90,
-                'end': 96,
+                'start': 92,
+                'end': 99,
             },
             'deaths': {
-                'start': 90,
-                'end': 96,
+                'start': 92,
+                'end': 99,
             }
         },
         # Fitting functions
@@ -123,7 +128,6 @@ class PlotCurveFitSpecificCountry():
                     if self.plotting_settings['predict']:
                         vx_from = vals_x_to_end[-self.plotting_settings['predict_days']]
                         vals_y_to_end = vals_y_to_end + [func(v, params[0], params[1]) for v in range(vx_from, vx_from + self.plotting_settings['predict_days'])]
-                        print(len(vals_y_to_end))
                 except Exception as e:
                     logging.info('Could not find curve fit: "{}"'.format(e))
             else:
@@ -139,6 +143,8 @@ class PlotCurveFitSpecificCountry():
 
             # Plot data
             ax.plot(vals_x_to_end, vals_y_to_end, 'o', color ='green', label ='Infections')
+            
+            highest_y_value = np.max(vals_y_to_end)
 
             # Plot prediction background
             if not self.plotting_settings['raw_data_only'] and self.plotting_settings['predict']:
@@ -155,6 +161,11 @@ class PlotCurveFitSpecificCountry():
             else:
                 labels = [str((date_first + datetime.timedelta(days=d)).date()) for d in ticks]
             plt.xticks(ticks=ticks, labels=labels)
+            # Calculate y-axis ticks and labels
+            to_range = int(highest_y_value / self.plotting_settings['y_tick_steps']['infections']) + 2
+            ticks = [t * self.plotting_settings['y_tick_steps']['infections'] for t in range(0, to_range)]
+            labels = [d for d in ticks]
+            plt.yticks(ticks=ticks, labels=labels)
 
             plt.legend(loc='upper left')
             plt.show()
@@ -238,6 +249,8 @@ class PlotCurveFitSpecificCountry():
 
             # Plot data
             ax.plot(vals_x_to_end, vals_y_to_end, 'o', color ='green', label ='Deaths')
+            
+            highest_y_value = np.max(vals_y_to_end)
 
             # Plot prediction background
             if not self.plotting_settings['raw_data_only'] and self.plotting_settings['predict']:
@@ -254,6 +267,11 @@ class PlotCurveFitSpecificCountry():
             else:
                 labels = [str((date_first + datetime.timedelta(days=d)).date()) for d in ticks]
             plt.xticks(ticks=ticks, labels=labels)
+            # Calculate y-axis ticks and labels
+            to_range = int(highest_y_value / self.plotting_settings['y_tick_steps']['deaths']) + 2
+            ticks = [t * self.plotting_settings['y_tick_steps']['deaths'] for t in range(0, to_range)]
+            labels = [d for d in ticks]
+            plt.yticks(ticks=ticks, labels=labels)
 
             plt.legend(loc='upper left')
             plt.show()

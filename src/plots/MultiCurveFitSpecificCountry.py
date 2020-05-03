@@ -27,6 +27,11 @@ class PlotMultiCurveFitSpecificCountry():
         'country': 'Germany',
         # Plot every n-th tick
         'nth_tick': 4,
+        # Plot y-ticks of given steps
+        'y_tick_steps': {
+            'infections': 10000,
+            'deaths': 500
+        },
         # Fitting data
         'fits': {
             'infections': [
@@ -73,8 +78,8 @@ class PlotMultiCurveFitSpecificCountry():
                     'color': 'darkviolet'
                 },
                 {
-                    'start_day': 90,
-                    'end_day': 96,
+                    'start_day': 92,
+                    'end_day': 99,
                     'plot_start_day': 88,
                     'plot_end_day': -1,
                     'color': 'darkorchid'
@@ -117,8 +122,8 @@ class PlotMultiCurveFitSpecificCountry():
                     'color': 'darkviolet'
                 },
                 {
-                    'start_day': 90,
-                    'end_day': 96,
+                    'start_day': 92,
+                    'end_day': 99,
                     'plot_start_day': 88,
                     'plot_end_day': -1,
                     'color': 'darkorchid'
@@ -211,6 +216,8 @@ class PlotMultiCurveFitSpecificCountry():
             plot_vals_x = [t for t in range(lowest_start_day, highest_end_day)]
             plot_vals_y = list(df_melted.Value)[lowest_start_day:highest_end_day]
             ax.plot(plot_vals_x, plot_vals_y, 'o', color='green', label='Infections')
+            
+            highest_y_value = np.max(plot_vals_y)
 
             ax.set_title('{} - {} - {}'.format(self.settings['plot']['title'], date_last.date(), plot_name), loc='center')
             ax.set_xlabel(self.settings['plot']['label_x'])
@@ -224,6 +231,11 @@ class PlotMultiCurveFitSpecificCountry():
             else:
                 labels = [str((date_first + datetime.timedelta(days=d)).date()) for d in ticks]
             plt.xticks(ticks=ticks, labels=labels)
+            # Calculate y-axis ticks and labels
+            to_range = int(highest_y_value / self.plotting_settings['y_tick_steps']['infections']) + 2
+            ticks = [t * self.plotting_settings['y_tick_steps']['infections'] for t in range(0, to_range)]
+            labels = [d for d in ticks]
+            plt.yticks(ticks=ticks, labels=labels)
 
             plt.legend(loc='upper left')
             plt.show()
@@ -296,6 +308,8 @@ class PlotMultiCurveFitSpecificCountry():
             plot_vals_x = [t for t in range(lowest_start_day, highest_end_day)]
             plot_vals_y = list(df_deaths_melted.Value)[lowest_start_day:highest_end_day]
             ax.plot(plot_vals_x, plot_vals_y, 'o', color='green', label='Infections')
+            
+            highest_y_value = np.max(plot_vals_y)
 
             ax.set_title('{} - {} - {}'.format(self.settings['plot']['title'], date_last.date(), plot_name), loc='center')
             ax.set_xlabel(self.settings['plot']['label_x'])
@@ -309,6 +323,11 @@ class PlotMultiCurveFitSpecificCountry():
             else:
                 labels = [str((date_first + datetime.timedelta(days=d)).date()) for d in ticks]
             plt.xticks(ticks=ticks, labels=labels)
+            # Calculate y-axis ticks and labels
+            to_range = int(highest_y_value / self.plotting_settings['y_tick_steps']['deaths']) + 2
+            ticks = [t * self.plotting_settings['y_tick_steps']['deaths'] for t in range(0, to_range)]
+            labels = [d for d in ticks]
+            plt.yticks(ticks=ticks, labels=labels)
 
             plt.legend(loc='upper left')
             plt.show()

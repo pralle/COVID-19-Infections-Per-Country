@@ -19,7 +19,11 @@ class PlotAllCountries():
         # Plot end day, use a number <= 0 to plot til last day
         'end_day': -1,
         # Plot every n-th tick
-        'nth_tick': 5,
+        'nth_tick': 6,
+        # Plot y-ticks of given steps
+        'y_tick_steps': {
+            'infections': 50000
+        },
         # Boolean flag whether to plot days as x-label instead of dates
         'plot_days_as_label_x': False
     }
@@ -51,11 +55,15 @@ class PlotAllCountries():
         plot_day_start = sd if sd > 0 and sd < plot_day_end else 0
         logging.info('Plotting to days [{}, {}]'.format(plot_day_start, plot_day_end))
 
+        highest_y_value = -1
         for i, cr in enumerate(countries):
             # Infected
             df_tmp = df_grouped_summed[df_grouped_summed['Country/Region']==cr]
             df_melted = df_tmp.melt(id_vars=df_tmp.columns.values[:1], var_name='Date', value_name='Value')[plot_day_start:plot_day_end]
             vals_x_to_end = [t for t in range(plot_day_start, plot_day_end)]
+            max_y_val = df_melted['Value'].max()
+            if max_y_val > highest_y_value:
+                highest_y_value = max_y_val
             ax.plot(vals_x_to_end, df_melted['Value'], '-', label='{}'.format(cr))
 
         ax.set_title('{} - {} - {}'.format(self.settings['plot']['title'], date_last.date(), plot_name), loc='center')
@@ -69,6 +77,11 @@ class PlotAllCountries():
         else:
             labels = [str((date_first + datetime.timedelta(days=d)).date()) for d in ticks]
         plt.xticks(ticks=ticks, labels=labels)
+        # Calculate y-axis ticks and labels
+        to_range = int(highest_y_value / self.plotting_settings['y_tick_steps']['infections']) + 2
+        ticks = [t * self.plotting_settings['y_tick_steps']['infections'] for t in range(0, to_range)]
+        labels = [d for d in ticks]
+        plt.yticks(ticks=ticks, labels=labels)
 
         plt.legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
 

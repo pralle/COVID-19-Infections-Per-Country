@@ -30,18 +30,23 @@ class PlotCurveFitMultiCountries():
         'predict_days': 4,
         # Plot every n-th tick
         'nth_tick': 3,
+        # Plot y-ticks of given steps
+        'y_tick_steps': {
+            'infections': 50000,
+            'deaths': 5000
+        },
         # Country and fitting data
         'countries': [
             {
                 'name': 'Italy',
                 'day_fit': {
                     'infections': {
-                        'start': 90,
-                        'end': 96,
+                        'start': 92,
+                        'end': 99,
                     },
                     'deaths': {
-                        'start': 90,
-                        'end': 96,
+                        'start': 92,
+                        'end': 99,
                     }
                 },
                 'color': 'tomato'
@@ -50,12 +55,12 @@ class PlotCurveFitMultiCountries():
                 'name': 'US',
                 'day_fit': {
                     'infections': {
-                        'start': 90,
-                        'end': 96,
+                        'start': 91,
+                        'end': 98,
                     },
                     'deaths': {
-                        'start': 90,
-                        'end': 96,
+                        'start': 91,
+                        'end': 98,
                     }
                 },
                 'color': 'seagreen'
@@ -64,12 +69,12 @@ class PlotCurveFitMultiCountries():
                 'name': 'Spain',
                 'day_fit': {
                     'infections': {
-                        'start': 90,
-                        'end': 96,
+                        'start': 92,
+                        'end': 99,
                     },
                     'deaths': {
-                        'start': 91,
-                        'end': 97,
+                        'start': 92,
+                        'end': 99,
                     }
                 },
                 'color': 'gold'
@@ -78,12 +83,12 @@ class PlotCurveFitMultiCountries():
                 'name': 'Germany',
                 'day_fit': {
                     'infections': {
-                        'start': 90,
-                        'end': 96,
+                        'start': 92,
+                        'end': 99,
                     },
                     'deaths': {
-                        'start': 90,
-                        'end': 96,
+                        'start': 92,
+                        'end': 99,
                     }
                 },
                 'color': 'lightskyblue'
@@ -137,6 +142,7 @@ class PlotCurveFitMultiCountries():
 
         lowest_start_day = len(dates)
         highest_end_day = 0
+        highest_y_value = -1
         for country in self.plotting_settings['countries']:
             logging.info('Preparing country "{}"'.format(country['name']))
             country_name = country['name']
@@ -186,6 +192,10 @@ class PlotCurveFitMultiCountries():
                 # Plot data
                 ax.plot(vals_x_to_end, vals_y_to_end, 'o', color=country['color'], label='{} (Infections)'.format(country_name))
 
+                y_max = np.max(vals_y_to_end)
+                if y_max > highest_y_value:
+                    highest_y_value = y_max
+
                 # Plot deaths
                 if not self.plotting_settings['predict'] and self.plotting_settings['plot_deaths']:
                     # Deaths
@@ -213,6 +223,11 @@ class PlotCurveFitMultiCountries():
         else:
             labels = [str((date_first + datetime.timedelta(days=d)).date()) for d in ticks]
         plt.xticks(ticks=ticks, labels=labels)
+        # Calculate y-axis ticks and labels
+        to_range = int(highest_y_value / self.plotting_settings['y_tick_steps']['infections']) + 2
+        ticks = [t * self.plotting_settings['y_tick_steps']['infections'] for t in range(0, to_range)]
+        labels = [d for d in ticks]
+        plt.yticks(ticks=ticks, labels=labels)
 
         plt.legend(loc='upper left')
         plt.show()
@@ -255,6 +270,7 @@ class PlotCurveFitMultiCountries():
 
         lowest_start_day = len(dates)
         highest_end_day = 0
+        highest_y_value = -1
         for country in self.plotting_settings['countries']:
             logging.info('Preparing country "{}"'.format(country['name']))
             country_name = country['name']
@@ -303,6 +319,10 @@ class PlotCurveFitMultiCountries():
 
                 # Plot data
                 ax.plot(vals_x_to_end, vals_y_to_end, 'o', color=country['color'], label='{}'.format(country_name))
+
+                y_max = np.max(vals_y_to_end)
+                if y_max > highest_y_value:
+                    highest_y_value = y_max
             else:
                 logging.info('Could not find given country "{}"'.format(country_name))
 
@@ -321,6 +341,11 @@ class PlotCurveFitMultiCountries():
         else:
             labels = [str((date_first + datetime.timedelta(days=d)).date()) for d in ticks]
         plt.xticks(ticks=ticks, labels=labels)
+        # Calculate y-axis ticks and labels
+        to_range = int(highest_y_value / self.plotting_settings['y_tick_steps']['deaths']) + 2
+        ticks = [t * self.plotting_settings['y_tick_steps']['deaths'] for t in range(0, to_range)]
+        labels = [d for d in ticks]
+        plt.yticks(ticks=ticks, labels=labels)
 
         plt.legend(loc='upper left')
         plt.show()

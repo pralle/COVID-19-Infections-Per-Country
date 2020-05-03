@@ -8,6 +8,7 @@ import os
 import datetime
 
 import matplotlib.pyplot as plt
+import numpy as np
 
 class PlotSpecificCountries():
 
@@ -20,6 +21,11 @@ class PlotSpecificCountries():
         'end_day': -1,
         # Plot every n-th tick
         'nth_tick': 3,
+        # Plot y-ticks of given steps
+        'y_tick_steps': {
+            'infections': 50000,
+            'deaths': 5000
+        },
         # Boolean flag whether to plot deaths
         'plot_deaths': True,
         # List of countries
@@ -61,12 +67,16 @@ class PlotSpecificCountries():
         # Gather all countries
         all_countries_list = list(df_grouped_summed['Country/Region'])
 
+        highest_y_value = -1
         for i, cr in enumerate(countries):
             if cr in all_countries_list:
                 # Infected
                 df_tmp = df_grouped_summed[df_grouped_summed['Country/Region']==cr]
                 df_melted = df_tmp.melt(id_vars=df_tmp.columns.values[:1], var_name='Date', value_name='Value')[plot_day_start:plot_day_end]
                 vals_x_to_end = [t for t in range(plot_day_start, plot_day_end)]
+                max_y_val = df_melted['Value'].max()
+                if max_y_val > highest_y_value:
+                    highest_y_value = max_y_val
                 ax.plot(vals_x_to_end, df_melted['Value'], '-', color=cmap(i), label='{} (Infections)'.format(cr))
 
                 # Deaths
@@ -88,6 +98,11 @@ class PlotSpecificCountries():
         else:
             labels = [str((date_first + datetime.timedelta(days=d)).date()) for d in ticks]
         plt.xticks(ticks=ticks, labels=labels)
+        # Calculate y-axis ticks and labels
+        to_range = int(highest_y_value / self.plotting_settings['y_tick_steps']['infections']) + 2
+        ticks = [t * self.plotting_settings['y_tick_steps']['infections'] for t in range(0, to_range)]
+        labels = [d for d in ticks]
+        plt.yticks(ticks=ticks, labels=labels)
 
         plt.legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
 
@@ -128,12 +143,16 @@ class PlotSpecificCountries():
         # Gather all countries
         all_countries_list = list(df_grouped_summed['Country/Region'])
 
+        highest_y_value = -1
         for i, cr in enumerate(countries):
             if cr in all_countries_list:
                 # Deaths
                 df_deaths_tmp = df_deaths_grouped_summed[df_deaths_grouped_summed['Country/Region']==cr]
                 df_deaths_melted = df_deaths_tmp.melt(id_vars=df_deaths_tmp.columns.values[:1], var_name='Date', value_name='Value')[plot_day_start:plot_day_end]
                 vals_x_to_end = [t for t in range(plot_day_start, plot_day_end)]
+                max_y_val = df_deaths_melted['Value'].max()
+                if max_y_val > highest_y_value:
+                    highest_y_value = max_y_val
                 ax.plot(vals_x_to_end, df_deaths_melted['Value'], '-', color=cmap(i), label='{}'.format(cr))
             else:
                 logging.info('Could not find given country "{}"'.format(cr))
@@ -149,6 +168,11 @@ class PlotSpecificCountries():
         else:
             labels = [str((date_first + datetime.timedelta(days=d)).date()) for d in ticks]
         plt.xticks(ticks=ticks, labels=labels)
+        # Calculate y-axis ticks and labels
+        to_range = int(highest_y_value / self.plotting_settings['y_tick_steps']['deaths']) + 2
+        ticks = [t * self.plotting_settings['y_tick_steps']['deaths'] for t in range(0, to_range)]
+        labels = [d for d in ticks]
+        plt.yticks(ticks=ticks, labels=labels)
 
         plt.legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
 
