@@ -55,8 +55,8 @@ class PlotCurveFitMultiCountries():
                 'name': 'US',
                 'day_fit': {
                     'infections': {
-                        'start': 91,
-                        'end': 98,
+                        'start': 93,
+                        'end': 100,
                     },
                     'deaths': {
                         'start': 91,
