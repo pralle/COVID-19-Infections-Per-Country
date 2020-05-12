@@ -16,7 +16,7 @@ class PlotSpecificCountries():
         # The plot name
         'plot_name': 'Specific countries ({}): "{}"',
         # Plot start day
-        'start_day': 55,
+        'start_day': 60,
         # Plot end day, use a number <= 0 to plot til last day
         'end_day': -1,
         # Plot every n-th tick

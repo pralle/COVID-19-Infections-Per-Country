@@ -18,7 +18,7 @@ class PlotMultiCurveFitSpecificCountry():
         # The plot name
         'plot_name': 'Multi curve fit ({}) for country "{}"',
         # Plot start day
-        'start_day': 40,
+        'start_day': 50,
         # Plot end day, use a number <= 0 to plot til last day
         'end_day': -1,
         # Boolean flag whether to plot deaths
@@ -81,8 +81,15 @@ class PlotMultiCurveFitSpecificCountry():
                     'start_day': 92,
                     'end_day': 99,
                     'plot_start_day': 88,
-                    'plot_end_day': -1,
+                    'plot_end_day': 100,
                     'color': 'darkorchid'
+                },
+                {
+                    'start_day': 97,
+                    'end_day': 104,
+                    'plot_start_day': 95,
+                    'plot_end_day': -1,
+                    'color': 'thistle'
                 }
             ],
             'deaths': [
@@ -125,8 +132,15 @@ class PlotMultiCurveFitSpecificCountry():
                     'start_day': 92,
                     'end_day': 99,
                     'plot_start_day': 88,
-                    'plot_end_day': -1,
+                    'plot_end_day': 100,
                     'color': 'darkorchid'
+                },
+                {
+                    'start_day': 97,
+                    'end_day': 104,
+                    'plot_start_day': 95,
+                    'plot_end_day': -1,
+                    'color': 'thistle'
                 }
             ]
         },
